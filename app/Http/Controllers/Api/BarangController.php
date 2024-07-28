@@ -38,7 +38,7 @@ class BarangController extends Controller
     public function show($id)
     {
         $post = Barang::find($id);
-        return new BarangResource(true, 'Detail Data Post!', $post);
+        return new BarangResource(true, 'Detail Data Barang!', $post);
     }
 
     public function update(Request $request, $id)
@@ -58,6 +58,14 @@ class BarangController extends Controller
         $data = Barang::find($id);
         $post = $data->update($request->all());
 
-        return new BarangResource(true, 'Data Post Berhasil Diubah!', $post);
+        return new BarangResource(true, 'Data Barang Berhasil Diubah!', $post);
+    }
+
+    public function destroy($id)
+    {
+        $data = Barang::find($id);
+        $data->delete();
+        
+        return new BarangResource(true, 'Data Barang Berhasil Dihapus!', null);
     }
 }
