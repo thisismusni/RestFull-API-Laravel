@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Http\Resources\BarangResource;
+use Illuminate\Support\Facades\Validator;
 
 class BarangController extends Controller
 {
@@ -13,5 +14,24 @@ class BarangController extends Controller
     {
         $posts = Barang::latest()->paginate(5);
         return new BarangResource(true, 'List Data Barang', $posts);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'barcode'   => 'required',
+            'nama'      => 'required',
+            'departmen' => 'required',
+            'uom'       => 'required',
+            'stok'      => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $post = Barang::create($request->all());
+
+        return new BarangResource(true, 'Data Barang Berhasil Ditambahkan!', $post);
     }
 }
