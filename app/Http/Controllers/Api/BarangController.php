@@ -40,4 +40,24 @@ class BarangController extends Controller
         $post = Barang::find($id);
         return new BarangResource(true, 'Detail Data Post!', $post);
     }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'barcode'   => 'required',
+            'nama'      => 'required',
+            'departmen' => 'required',
+            'uom'       => 'required',
+            'stok'      => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $data = Barang::find($id);
+        $post = $data->update($request->all());
+
+        return new BarangResource(true, 'Data Post Berhasil Diubah!', $post);
+    }
 }
