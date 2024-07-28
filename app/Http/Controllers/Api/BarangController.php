@@ -34,4 +34,10 @@ class BarangController extends Controller
 
         return new BarangResource(true, 'Data Barang Berhasil Ditambahkan!', $post);
     }
+
+    public function show($id)
+    {
+        $post = Barang::find($id);
+        return new BarangResource(true, 'Detail Data Post!', $post);
+    }
 }
